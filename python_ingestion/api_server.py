@@ -29,7 +29,6 @@ from datetime import datetime
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from config import DB_PATH
 from database import (
     fetch_all_articles,
     fetch_all_clusters,
@@ -194,7 +193,6 @@ def stats():
         "topic_clusters":      len(topic_clusters),
         "standalone_articles": len(standalone),
         "by_source":           by_source,
-        "db_path":             str(DB_PATH),
     })
 
 
