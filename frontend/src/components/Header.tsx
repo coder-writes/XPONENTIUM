@@ -12,25 +12,25 @@ export function Header({ refreshedAt, refreshing, ingestError, onRefresh }: Head
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-10 border-b border-border bg-background">
-      <div className="mx-auto max-w-5xl px-6 py-4 flex items-center justify-between gap-6">
+    <header className="sticky top-0 z-10 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120] text-slate-800 dark:text-white shrink-0">
+      <div className="w-full px-6 py-4 flex items-center justify-between gap-6">
         <div className="flex items-baseline gap-2">
-          <h1 className="font-serif text-xl font-bold tracking-tight">News Pulse</h1>
-          <span className="text-xs uppercase tracking-widest text-muted-foreground ml-2">
-            Timeline
+          <h1 className="font-sans text-xl font-bold tracking-tight">Timeline Dashboard</h1>
+          <span className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-450 ml-2">
+            Overview
           </span>
         </div>
-        <div className="flex items-center gap-4 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-2 py-0.5 font-mono uppercase tracking-wider text-[10px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+        <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 px-2.5 py-1 font-mono uppercase tracking-wider text-[10px]">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
             Live
           </span>
           <span>
-            {refreshedAt.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}
+            Refreshed at: {refreshedAt.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}
           </span>
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:bg-secondary"
+            className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors hover:bg-slate-100 dark:hover:bg-slate-700"
             title="Toggle Theme"
           >
             {theme === "dark" ? (
@@ -42,15 +42,15 @@ export function Header({ refreshedAt, refreshing, ingestError, onRefresh }: Head
           <button
             onClick={onRefresh}
             disabled={refreshing}
-            className="rounded-md border border-border bg-card px-3 py-1.5 h-8 text-xs font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-50 disabled:pointer-events-none"
+            className="rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 h-8 text-xs font-medium text-slate-700 dark:text-slate-200 transition-colors hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50 disabled:pointer-events-none"
           >
             {refreshing ? "Ingesting…" : "Refresh"}
           </button>
         </div>
       </div>
       {ingestError && (
-        <div className="mx-auto max-w-5xl px-6 pb-3">
-          <div className="rounded-md border border-destructive/40 bg-destructive/10 text-destructive px-3 py-2 text-xs">
+        <div className="w-full px-6 pb-3">
+          <div className="rounded-md border border-red-500/40 bg-red-500/10 text-red-500 px-3 py-2 text-xs">
             Ingest failed: {ingestError}
           </div>
         </div>

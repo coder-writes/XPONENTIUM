@@ -163,10 +163,11 @@ def _cluster_label(
                 + "\n".join(f"- {t}" for t in titles if t)
             )
             
-            # Simple retry for 429 Rate Limit (Free tier has 5 RPM limit)
+            # Simple retry for 429 Rate Limit (Free tier has 15 RPM limit)
             max_retries = 3
             for attempt in range(max_retries):
                 try:
+                    time.sleep(4) # Rate limit avoidance (15 RPM = 4s per request)
                     response = model.generate_content(prompt)
                     if response and response.text:
                         clean_label = response.text.strip().strip('"').strip("'")
@@ -174,8 +175,8 @@ def _cluster_label(
                     break
                 except Exception as e:
                     if "429" in str(e) and attempt < max_retries - 1:
-                        log.warning("Gemini API rate limit hit. Sleeping for 15s...")
-                        time.sleep(15)
+                        log.warning("Gemini API rate limit hit. Sleeping for 30s...")
+                        time.sleep(30)
                     else:
                         raise e
         except Exception as e:

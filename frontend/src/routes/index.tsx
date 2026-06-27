@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { fetchTimeline, fetchCluster, triggerIngest, checkIngestStatus, type TimelineCluster, type ClusterDetail } from "../api";
+import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header";
 import { TimelineView } from "../components/TimelineView";
 import { ClusterDetailView } from "../components/ClusterDetailView";
-
 import { ThemeProvider } from "../components/ThemeProvider";
 
 export const Route = createFileRoute("/")({
@@ -89,26 +89,43 @@ function Index() {
 
   return (
     <ThemeProvider defaultTheme="light">
-      <div className="min-h-screen bg-background text-foreground font-sans">
-        <Header 
-          refreshedAt={refreshedAt} 
-          refreshing={refreshing} 
-          ingestError={ingestError} 
-          onRefresh={handleRefresh} 
-        />
+      <div className="flex h-screen w-screen overflow-hidden bg-white dark:bg-[#0F172A] text-slate-800 dark:text-slate-100 font-sans">
+        {/* Sidebar */}
+        <Sidebar />
 
-        <main className="mx-auto max-w-5xl px-6 py-10 space-y-10">
-          <TimelineView 
-            timeline={timeline} 
-            selectedId={selectedId} 
-            onSelect={setSelectedId} 
-            hydrated={hydrated} 
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
+          {/* Header */}
+          <Header 
+            refreshedAt={refreshedAt} 
+            refreshing={refreshing} 
+            ingestError={ingestError} 
+            onRefresh={handleRefresh} 
           />
-          
-          {selectedCluster && (
-            <ClusterDetailView cluster={selectedCluster} />
-          )}
-        </main>
+
+          {/* Split Pane Container */}
+          <div className="flex-1 flex min-h-0 overflow-hidden">
+            {/* Timeline Pane */}
+            <div className="flex-1 overflow-y-auto min-w-0">
+              <TimelineView 
+                timeline={timeline} 
+                selectedId={selectedId} 
+                onSelect={setSelectedId} 
+                hydrated={hydrated} 
+              />
+            </div>
+
+            {/* Cluster Detail Pane */}
+            {selectedCluster && (
+              <div className="w-[420px] shrink-0 border-l border-slate-200 dark:border-slate-800 h-full overflow-hidden">
+                <ClusterDetailView 
+                  cluster={selectedCluster} 
+                  onClose={() => setSelectedCluster(null)} 
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </ThemeProvider>
   );
