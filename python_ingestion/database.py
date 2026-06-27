@@ -54,7 +54,7 @@ def init_db() -> None:
     """Create tables / indexes if they don't already exist."""
     with get_connection() as conn:
         conn.execute(_SCHEMA_SQL)
-    log.info("Database initialised at %s", DATABASE_URL.split("@")[-1])
+    log.info("Database initialised successfully.")
 
 
 # ─── Articles ──────────────────────────────────────────────────────────────────

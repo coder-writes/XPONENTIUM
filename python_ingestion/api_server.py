@@ -35,6 +35,7 @@ from database import (
     fetch_articles_since,
     fetch_cluster_with_articles,
     init_db,
+    get_connection,
 )
 
 log = logging.getLogger(__name__)
@@ -200,7 +201,13 @@ def stats():
 
 @app.get("/health")
 def health():
-    return jsonify({"status": "ok"})
+    try:
+        with get_connection() as conn:
+            conn.execute("SELECT 1")
+        return jsonify({"status": "ok", "database": "connected"})
+    except Exception as e:
+        log.error("Health check failed: %s", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 # ─── Entry point ──────────────────────────────────────────────────────────────
